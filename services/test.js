@@ -69,7 +69,7 @@ module.exports = {
     read: function(req, resource, params, config, callback) {
         setTimeout(function () {
             callback(null, JSON.parse(JSON.stringify(_messages)));
-        }, 2000);
+        }, 5);
     },
     create: function(req, resource, params, body, config, callback) {
         _messages.push({
@@ -82,7 +82,7 @@ module.exports = {
         });
         setTimeout(function () {
             callback(null, _messages);
-        }, 2000);
+        }, 5);
     }
     // update: function(resource, params, body, config, callback) {},
     // delete: function(resource, params, config, callback) {}
