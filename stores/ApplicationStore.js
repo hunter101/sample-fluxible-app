@@ -1,6 +1,7 @@
 import BaseStore from 'fluxible/addons/BaseStore';
 import routesConfig from '../configs/routes';
 import RouteStore from './RouteStore';
+import {navigateAction} from 'fluxible-router';
 
 class ApplicationStore extends BaseStore {
     constructor(dispatcher) {
@@ -11,6 +12,7 @@ class ApplicationStore extends BaseStore {
         this.pageTitle = '';
         this.messages = [];
         this.loading = false;
+        this.user = {role: 0};
     }
     handlePageTitle(currentRoute) {
         this.dispatcher.waitFor(RouteStore, () => {
@@ -35,7 +37,8 @@ class ApplicationStore extends BaseStore {
             currentPage: this.currentPage,
             pages: this.pages,
             pageTitle: this.pageTitle,
-            messages: this.messages
+            messages: this.messages,
+            user: this.user
         };
     }
     rehydrate(state) {
@@ -43,10 +46,10 @@ class ApplicationStore extends BaseStore {
         this.currentPage = state.currentPage;
         this.pages = state.pages;
         this.pageTitle = state.pageTitle,
-        this.messages = state.messages
+        this.messages = state.messages,
+        this.user = state.user
     }
     handleMyAction(messages) {
-        console.log('handling my action in applicationStore');
         this.messages = messages;
         this.emitChange();
     }
@@ -54,13 +57,22 @@ class ApplicationStore extends BaseStore {
         this.loading = loading;
         this.emitChange();
     }
+    handleUserState(payload) {
+        var user = payload.user;
+        var url  = payload.url;
+        if (user) {
+            this.user = user;
+            this.emitChange();
+        }
+    }
 }
 
 ApplicationStore.storeName = 'ApplicationStore';
 ApplicationStore.handlers = {
     'NAVIGATE_SUCCESS': 'handlePageTitle',
     'MY_ACTION': 'handleMyAction',
-    'LOADING_STATE': 'handleLoadingState'
+    'LOADING_STATE': 'handleLoadingState',
+    'USER_STATE': 'handleUserState'
 };
 
 export default ApplicationStore;

@@ -5,21 +5,24 @@ import Nav from './Nav';
 import ApplicationStore from '../stores/ApplicationStore';
 import { connectToStores, provideContext } from 'fluxible-addons-react';
 import { handleHistory } from 'fluxible-router';
+import userAction from '../actions/user.js';
+import routes from '../configs/routes';
 
 class Application extends React.Component {
-    
+
     constructor(props, context) {
         super(props, context);
         this.store = context.getStore('ApplicationStore');
     }
-    
+
     render() {
         var Handler = this.props.currentRoute.get('handler');
 
         return (
             <div>
-            {this.store.loading ? "loading" : "not loading"}
-                <Nav selected={this.props.currentPageName} links={this.props.pages} />
+                <div>{this.store.user.username || "not logged in"}</div>
+                <div>{this.store.loading ? "loadinging" : "not loading"}</div>
+                <Nav selected={this.props.pageTitle} links={this.props.pages} />
                 <Handler />
             </div>
         );
@@ -37,7 +40,7 @@ class Application extends React.Component {
 Application.contextTypes = {
     executeAction: React.PropTypes.func.isRequired,
     getStore: React.PropTypes.func.isRequired
-}
+};
 
 export default handleHistory(provideContext(connectToStores(
     Application,

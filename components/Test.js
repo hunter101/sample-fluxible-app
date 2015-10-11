@@ -4,22 +4,22 @@ import getMessages from '../actions/test';
 // register the service
 
 class Test extends React.Component {
-    
+
     constructor(props, context) {
         super(props, context);
         this.store = context.getStore('ApplicationStore');
     }
-    
+
     onClick(e) {
         this.context.executeAction(getMessages, {});
     }
-    
+
     showMessageDetails(id) {
         this.context.executeAction(getMessages, {id: id});
     }
-    
+
     render() {
-                
+
         return (
             <div>
                 <h2>This ist he totel</h2>

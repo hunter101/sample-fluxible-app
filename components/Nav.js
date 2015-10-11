@@ -1,10 +1,14 @@
 import React from 'react';
-import { NavLink } from 'fluxible-router';
+import NavLink from './NavLink';
+import userRoutes from '../configs/routes';
+import userRoles from '../configs/roles';
 
 class Nav extends React.Component {
+
     render() {
         const selected = this.props.selected;
         const links = this.props.links;
+        const user = this.context.getStore('ApplicationStore').user;
 
         const linkHTML = Object.keys(links).map((name) => {
             var className = '';
@@ -12,6 +16,12 @@ class Nav extends React.Component {
 
             if (selected === name) {
                 className = 'pure-menu-selected';
+            }
+
+            if (link.auth && link.showLinkNonAuth === false) {
+                if (!userRoles.canAccess(user.role, link.auth)) {
+                    return;
+                }
             }
 
             return (
@@ -32,6 +42,11 @@ class Nav extends React.Component {
 Nav.defaultProps = {
     selected: 'home',
     links: {}
+};
+
+Nav.contextTypes = {
+    executeAction: React.PropTypes.func.isRequired,
+    getStore: React.PropTypes.func.isRequired
 };
 
 export default Nav;

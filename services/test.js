@@ -4,6 +4,8 @@
  */
 'use strict';
 
+import userRoles from '../configs/roles';
+
 var _messages = [
     {
         id: 'm_1',
@@ -58,7 +60,7 @@ var _messages = [
         threadID: 't_3',
         threadName: 'Bill and Brian',
         authorName: 'Brian',
-        text: 'At ForwardJS?  Yeah, of course.  See you there!',
+        text: 'At ForwardJSs?  Yeah, of course.  See you there!',
         timestamp: Date.now() - 39999
     }
 ];
@@ -67,11 +69,17 @@ module.exports = {
     name: 'message',
     // at least one of the CRUD methods is required
     read: function(req, resource, params, config, callback) {
+        if (!req.user || !userRoles.canAccess(req.user.role, "READ TEST")) {
+            callback({notAuthenticated: true})
+        }
         setTimeout(function () {
             callback(null, JSON.parse(JSON.stringify(_messages)));
         }, 5);
     },
     create: function(req, resource, params, body, config, callback) {
+        if (!req.user || !userRoles.canAccess(req.user.role, "CREATE TEST")) {
+            callback({notAuthenticated: true})
+        }
         _messages.push({
             id: params.id,
             threadID: params.threadID,
