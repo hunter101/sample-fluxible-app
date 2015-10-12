@@ -6,7 +6,6 @@ export default {
         method: 'get',
         page: 'home',
         title: 'Home',
-        //auth: ['user'],
         handler: require('../components/Home')
     },
     about: {
@@ -15,7 +14,6 @@ export default {
         page: 'about',
         currentPageName: 'About',
         title: 'About',
-        //auth: ['user'],
         handler: require('../components/About')
     },
     test: {
