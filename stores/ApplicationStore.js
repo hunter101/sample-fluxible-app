@@ -13,6 +13,7 @@ class ApplicationStore extends BaseStore {
         this.messages = [];
         this.loading = false;
         this.user = {role: 0};
+        this.query = [];
     }
     handlePageTitle(currentRoute) {
         this.dispatcher.waitFor(RouteStore, () => {
@@ -38,7 +39,8 @@ class ApplicationStore extends BaseStore {
             pages: this.pages,
             pageTitle: this.pageTitle,
             messages: this.messages,
-            user: this.user
+            user: this.user,
+            query: this.query
         };
     }
     rehydrate(state) {
@@ -47,7 +49,8 @@ class ApplicationStore extends BaseStore {
         this.pages = state.pages;
         this.pageTitle = state.pageTitle,
         this.messages = state.messages,
-        this.user = state.user
+        this.user = state.user;
+        this.query = state.query;
     }
     handleMyAction(messages) {
         this.messages = messages;
@@ -60,10 +63,11 @@ class ApplicationStore extends BaseStore {
     handleUserState(payload) {
         var user = payload.user;
         var url  = payload.url;
+        this.query = payload.query;
         if (user) {
             this.user = user;
-            this.emitChange();
         }
+        this.emitChange();
     }
 }
 

@@ -1,6 +1,5 @@
 import {createNavLinkComponent} from 'fluxible-router';
 import {navigateAction} from 'fluxible-router';
-import routes from '../configs/routes';
 import _ from 'underscore';
 import userAction from '../actions/user.js';
 import userRoles from '../configs/roles';
@@ -51,9 +50,10 @@ module.exports = createNavLinkComponent({
 
         var context = this.props.context || this.context;
 
-        var user = context.getStore('ApplicationStore').user;
-        var route = _.find(routes, {path: href});
-
+        var ApplicationStore = context.getStore('ApplicationStore');
+        var user = ApplicationStore.user;
+        var pages = ApplicationStore.getPages();
+        var route = _.find(pages, {path: href});
         if (route.renderFullPage === true) {
             return;
         }

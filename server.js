@@ -40,14 +40,18 @@ var LocalStrategy = require('passport-local').Strategy;
 //import { Strategy } from 'passport-local-fluxible';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-var SequelizeStore = require('connect-session-sequelize')(session.Store);
+var SequelizeStore = require('connect-sequelize')(session),
+    modelName = 'Session',
+    options = {};
 server.use(cookieParser());
 server.use(session({
     secret: "This is my secret",
-    name: "cookie-namea",
-    //store: new SequelizeStore({
-    //    db: models.sequelize
-    //}),
+    name: "cookie-name",
+    store: SequelizeStore(
+        models.sequelize,
+        options,
+        modelName
+    ),
     proxy: true,
     resave: true,
     saveUninitialized: true
@@ -56,15 +60,11 @@ server.use(passport.initialize());
 server.use(passport.session());
 
 passport.serializeUser(function (user, done) {
-    done(null,  {
-        id: user["id"],
-        username: user["username"],
-        canAccess: user.canAccess
-    });
+    done(null, user.id);
 });
 
-passport.deserializeUser(function (user, done) {
-    models.User.findById(user.id)
+passport.deserializeUser(function (id, done) {
+    models.User.findById(id)
         .then(function (user) {
             var err = user ? null : "No User Found";
             done(err, user);
@@ -91,12 +91,12 @@ passport.use(new LocalStrategy(
 
 server.post('/login', passport.authenticate('local', {
     successRedirect: '/',
-    failureRedirect: '/login'
+    failureRedirect: '/login?invalid=login'
 }));
 
 server.get('/logout', function (req, res) {
-   req.logout();
-   res.redirect("/");
+    req.logout();
+    res.redirect("/");
 });
 
 // Get access to the fetchr plugin instance
@@ -111,16 +111,16 @@ server.use(fetchrPlugin.getXhrPath(), fetchrPlugin.getMiddleware());
 server.use((req, res, next) => {
     let context = app.createContext({
         req: req,
-        xhrContext: { // Used as query params for all XHR calls
+        xhrContext: { // Used as query prams for all XHR calls
             lang: 'en-US', // make sure XHR calls receive the same lang as the initial request
-            _csrf: 'a3fc2d' // CSRF token to validate on the server using your favorite library
+            _csrf: 'a3fc2d' // CSRF token to validated on the server using your favorite library
         }
     });
 
     debug('Executing navigate action');
     context.getActionContext().executeAction(navigateAction, {
         url: req.url,
-        user: req.user
+        user: req.user,
     }, (err) => {
         if (err) {
             if (err.statusCode && err.statusCode === 404) {
@@ -131,12 +131,17 @@ server.use((req, res, next) => {
             return;
         }
 
+        console.log("ath", req.isAuthenticated());
+
         // Pass in the user to the components through an action
         // so we can render any initial user related content on the server
         // also acts as auth to prevent server side rendering of pagese
         // that the user has no auth to.
-        context.getActionContext().executeAction(userAction,
-            {user: req.user, url: req.url},
+        context.getActionContext().executeAction(userAction, {
+                user: req.user,
+                url: req.url,
+                query: req.query
+            },
             (err) => {
 
                 debug('Exposing context sites');

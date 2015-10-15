@@ -23,7 +23,7 @@ class Application extends React.Component {
                 <div>{this.store.user.username || "not logged in"}</div>
                 <div>{this.store.loading ? "loadinging" : "not loading"}</div>
                 <Nav selected={this.props.pageTitle} links={this.props.pages} />
-                <Handler />
+                <Handler query={this.store.query} />
             </div>
         );
     }

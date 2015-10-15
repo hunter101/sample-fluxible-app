@@ -22,7 +22,7 @@ class Test extends React.Component {
 
         return (
             <div>
-                <h2>This ist he totel</h2>
+                <h2>This is a test title</h2>
                 <p>This is the test page woop</p>
                 <button onClick={this.onClick.bind(this)}>Click me</button>
                 {this.store.messages.map(
