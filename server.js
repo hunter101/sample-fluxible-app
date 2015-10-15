@@ -23,6 +23,7 @@ import _ from "underscore";
 
 const htmlComponent = React.createFactory(HtmlComponent);
 const env = process.env.NODE_ENV;
+//const env = "DEVELOPMENT";
 const debug = debugLib('fluxible-example');
 const server = express();
 server.use('/public', express.static(path.join(__dirname, '/build')));
@@ -40,16 +41,16 @@ var LocalStrategy = require('passport-local').Strategy;
 //import { Strategy } from 'passport-local-fluxible';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-var SequelizeStore = require('connect-session-sequelize')(session.Store);
+//var SequelizeStore = require('connect-session-sequelize')(session.Store);
+var SequelizeStore = require('express-sequelize-session')(session.Store);
+
 server.use(cookieParser());
 server.use(session({
     secret: "This is my secret",
     name: "cookie-namea",
-    //store: new SequelizeStore({
-    //    db: models.sequelize
-    //}),
-    proxy: true,
-    resave: true,
+    store: new SequelizeStore(models.sequelize),
+    //proxy: true,
+    resave: false,
     saveUninitialized: true
 }));
 server.use(passport.initialize());
@@ -161,15 +162,6 @@ server.use((req, res, next) => {
 models.sequelize.sync()
     .then(function () {
 
-        //models.User.update({
-        //
-        //    username: "testuser",
-        //    password: "asdasd",
-        //    role: 1
-        //},
-        //    {where: {
-        //        id: 1
-        //    }});
         const port = process.env.PORT || 3001;
         server.listen(port);
         console.log('Application listening on port ' + port);

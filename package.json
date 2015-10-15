@@ -5,7 +5,7 @@
   "main": "start.js",
   "scripts": {
     "build": "webpack & webpack --config webpack.config.production.js",
-    "dev": "nodemon start.js && node webpack-dev-server.js",
+    "dev": "node webpack-dev-server.js && nodemon start.js",
     "lint": "eslint ./*.js ./**/*.js",
     "start": "nodemon start.js",
     "test": "jest"
@@ -21,11 +21,11 @@
     "babel": "^5.4.7",
     "body-parser": "^1.6.4",
     "compression": "^1.5.1",
-    "connect-session-sequelize": "^2.3.1",
     "cookie-parser": "^1.4.0",
     "csurf": "^1.6.3",
     "debug": "^2.0.0",
     "express": "^4.3.2",
+    "express-sequelize-session": "^0.4.0",
     "express-session": "^1.11.3",
     "express-state": "^1.2.0",
     "fetchr": "^0.5.20",
