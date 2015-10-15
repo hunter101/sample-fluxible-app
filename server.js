@@ -10,7 +10,6 @@ import compression from 'compression';
 import bodyParser from 'body-parser';
 import path from 'path';
 import serialize from 'serialize-javascript';
-import sequelizeStore from 'connect-session-sequelize';
 import {navigateAction} from 'fluxible-router';
 import userAction from './actions/user.js';
 import debugLib from 'debug';
@@ -43,6 +42,7 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 //var SequelizeStore = require('connect-session-sequelize')(session.Store);
 var SequelizeStore = require('express-sequelize-session')(session.Store);
+
 
 server.use(cookieParser());
 server.use(session({

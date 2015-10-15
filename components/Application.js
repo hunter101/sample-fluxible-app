@@ -7,6 +7,7 @@ import { connectToStores, provideContext } from 'fluxible-addons-react';
 import { handleHistory } from 'fluxible-router';
 import userAction from '../actions/user.js';
 import routes from '../configs/routes';
+import LoadingState from './misc/LoadingState.js';
 
 class Application extends React.Component {
 
@@ -21,7 +22,7 @@ class Application extends React.Component {
         return (
             <div>
                 <div>{this.store.user.username || "not logged in"}</div>
-                <div>{this.store.loading ? "loadinging" : "not loading"}</div>
+                <LoadingState loading={this.store.loading} />
                 <Nav selected={this.props.pageTitle} links={this.props.pages} />
                 <Handler />
             </div>
