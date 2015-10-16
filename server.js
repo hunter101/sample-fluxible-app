@@ -10,7 +10,6 @@ import compression from 'compression';
 import bodyParser from 'body-parser';
 import path from 'path';
 import serialize from 'serialize-javascript';
-import sequelizeStore from 'connect-session-sequelize';
 import {navigateAction} from 'fluxible-router';
 import userAction from './actions/user.js';
 import debugLib from 'debug';
@@ -37,23 +36,16 @@ server.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 // authentication
 import passport from 'passport';
 var LocalStrategy = require('passport-local').Strategy;
-//import { Strategy } from 'passport-local-fluxible';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-var SequelizeStore = require('connect-sequelize')(session),
-    modelName = 'Session',
-    options = {};
+var SequelizeStore = require('express-sequelize-session')(session.Store);
 server.use(cookieParser());
 server.use(session({
     secret: "This is my secret",
-    name: "cookie-name",
-    store: SequelizeStore(
-        models.sequelize,
-        options,
-        modelName
-    ),
+    name: "cookie-namea",
+    store: new SequelizeStore(models.sequelize),
     proxy: true,
-    resave: true,
+    resave: false,
     saveUninitialized: true
 }));
 server.use(passport.initialize());
@@ -166,15 +158,6 @@ server.use((req, res, next) => {
 models.sequelize.sync()
     .then(function () {
 
-        //models.User.update({
-        //
-        //    username: "testuser",
-        //    password: "asdasd",
-        //    role: 1
-        //},
-        //    {where: {
-        //        id: 1
-        //    }});
         const port = process.env.PORT || 3001;
         server.listen(port);
         console.log('Application listening on port ' + port);

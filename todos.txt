@@ -1,0 +1,4 @@
+Add an image resizer,  this looks promising for basic on the fly + cache functionality
+https://github.com/zivester/node-quickthumb
+
+On a prod env might want somethings more like the S3 instance.

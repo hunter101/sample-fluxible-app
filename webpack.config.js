@@ -1,5 +1,8 @@
 var webpack = require('webpack');
 var path = require('path');
+require('style-loader');
+require('autoprefixer-loader');
+
 
 var webpackConfig = {
     resolve: {
@@ -17,6 +20,18 @@ var webpackConfig = {
     },
     module: {
         loaders: [
+
+            { test: /\.json$/, loader: 'json-loader'},
+            {
+                test: /\.scss$/,
+                loader: 'style!css!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded'
+            },
+            {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&minetype=application/font-woff"},
+            {test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&minetype=application/font-woff"},
+            {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&minetype=application/octet-stream"},
+            {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file"},
+            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&minetype=image/svg+xml"},
+            {test: /\.jpg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&minetype=image/jpg+xml"},
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
@@ -25,7 +40,6 @@ var webpackConfig = {
                     require.resolve('babel-loader')
                 ]
             },
-            { test: /\.json$/, loader: 'json-loader'}
         ]
     },
     node: {

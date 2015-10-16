@@ -8,6 +8,8 @@ import app from './app';
 const debugClient = debug('fluxible-example');
 const dehydratedState = window.App; // Sent from the server
 
+require('./assets/scss/superlist.scss');
+
 window.React = React; // For chrome dev tool support
 
 // expose debug object to browser, so that it can be enabled/disabled from browser:
