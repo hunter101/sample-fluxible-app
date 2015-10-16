@@ -6,7 +6,7 @@ import ApplicationStore from '../stores/ApplicationStore';
 import { connectToStores, provideContext } from 'fluxible-addons-react';
 import { handleHistory } from 'fluxible-router';
 import userAction from '../actions/user.js';
-import routes from '../configs/routes';
+import routes from '../config/routes';
 import LoadingState from './misc/LoadingState.js';
 
 class Application extends React.Component {
@@ -21,7 +21,10 @@ class Application extends React.Component {
 
         return (
             <div>
-                <div>{this.store.user.username || "not logged in"}</div>
+                <div>{this.store.user.displayName || "not logged in"}</div>
+                {this.store.user.facebookId && (
+                    <img src={"http://graph.facebook.com/" + this.store.user.facebookId + "/picture"} />
+                )}
                 <LoadingState loading={this.store.loading} />
                 <Nav selected={this.props.pageTitle} links={this.props.pages} />
                 <Handler query={this.store.query} />

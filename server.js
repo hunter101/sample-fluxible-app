@@ -31,11 +31,20 @@ server.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
 
+// Thumbnail rendering
+var qt = require('quickthumb');
+server.use('/assets', qt.static(__dirname + '/assets',
+    {
+        quality: 1
+    }
+));
+
 //debugLib.enable('*');
 
 // authentication
 import passport from 'passport';
 var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 var SequelizeStore = require('express-sequelize-session')(session.Store);
@@ -51,6 +60,42 @@ server.use(session({
 server.use(passport.initialize());
 server.use(passport.session());
 
+// Facebook Auth Strategy
+passport.use(new FacebookStrategy({
+        clientID: "954761754597123",
+        clientSecret: "3d5efac6ce7b58446f708ab00d0533f2",
+        callbackURL: "http://localhost:3000/auth/facebook/callback",
+        enableProof: false
+    },
+    function(accessToken, refreshToken, profile, done) {
+        console.log(profile);
+        models.User.findOrCreate({
+            where: {
+                facebookId: profile.id
+            },
+            defaults: {
+                role: 1,
+                username: profile.username,
+                displayName: profile.displayName,
+                profileUrl: profile.profileUrl
+            }
+        }).spread(function (user, created) {
+            return done(null, user);
+        });
+    }
+));
+
+server.get('/auth/facebook',
+    passport.authenticate('facebook'));
+
+server.get('/auth/facebook/callback',
+    passport.authenticate('facebook', { failureRedirect: '/login' }),
+    function(req, res) {
+        // Successful authentication, redirect home.
+        res.redirect('/');
+    });
+
+// Local Auth Strategy
 passport.serializeUser(function (user, done) {
     done(null, user.id);
 });
@@ -156,6 +201,7 @@ server.use((req, res, next) => {
 });
 
 models.sequelize.sync()
+//models.sequelize.sync({force: true})
     .then(function () {
 
         const port = process.env.PORT || 3001;

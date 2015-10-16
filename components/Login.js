@@ -9,7 +9,7 @@ class Login extends React.Component {
         return (
             <div>
                 <h2>Login</h2>
-
+                <a href="/auth/facebook">Login with facebook</a>
                 <form method="POST" action="/login">
                     <input placeholder="username" className="username" name="username"/>
                     <input placeholder="password" className="password" name="password"/>

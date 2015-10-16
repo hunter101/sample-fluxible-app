@@ -38,6 +38,14 @@ class Register extends React.Component {
                              onSubmit={this.submitForm.bind(this)}
                              ref="form">
                     <Input
+                        name="displayName"
+                        label="Display Name"
+                        type="text"
+                        placeholder="Enter a Display Name."
+                        validationError="This field is required sucker"
+                        required
+                        />
+                    <Input
                         name="username"
                         label="Username"
                         type="text"

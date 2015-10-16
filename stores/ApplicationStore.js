@@ -1,5 +1,5 @@
 import BaseStore from 'fluxible/addons/BaseStore';
-import routesConfig from '../configs/routes';
+import routesConfig from '../config/routes';
 import RouteStore from './RouteStore';
 import {navigateAction} from 'fluxible-router';
 

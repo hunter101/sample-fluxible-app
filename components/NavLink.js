@@ -1,8 +1,9 @@
 import {createNavLinkComponent} from 'fluxible-router';
 import {navigateAction} from 'fluxible-router';
+import routes from '../config/routes';
 import _ from 'underscore';
 import userAction from '../actions/user.js';
-import userRoles from '../configs/roles';
+import userRoles from '../config/roles';
 
 function isLeftClickEvent (e) {
     return e.button === 0;
