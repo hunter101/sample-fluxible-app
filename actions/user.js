@@ -13,7 +13,8 @@ export default function myAction(actionContext, payload, done) {
 
     if (route.auth) {
         if (!user || !userRoles.canAccess(user.role, route.auth)) {
-            actionContext.executeAction(navigateAction, {url: "/login?redirect=" + url}, done());
+            var redirectUrl = route.redirectOnFail || "/login";
+            actionContext.executeAction(navigateAction, {url: redirectUrl + "?redirect=" + url}, done());
         }
     }
     done();

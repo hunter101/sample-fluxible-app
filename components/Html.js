@@ -16,7 +16,7 @@ class Html extends React.Component {
             </body>
             <script dangerouslySetInnerHTML={{__html: this.props.state}}></script>
             <script src={'/public/js/' + this.props.clientFile}></script>
-            <img src="/assets/images/sample.jpg?dim=200x100" />
+            <img src="/assets/images/sample_1.jpg?dim=200x100" />
             </html>
         );
     }

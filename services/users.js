@@ -14,6 +14,7 @@ module.exports = {
         models.User.create({
             username: params.username,
             password: params.password,
+            displayName: params.displayName,
             role: 1
         })
             .then((user) => {
