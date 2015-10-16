@@ -1,5 +1,5 @@
 import {RouteStore} from 'fluxible-router';
-import routes from '../configs/routes';
+import routes from '../config/routes';
 import _ from 'underscore';
 
 class AuthRoutesStore extends RouteStore {

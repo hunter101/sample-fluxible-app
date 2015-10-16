@@ -1,6 +1,6 @@
 'use strict';
 import _ from 'underscore';
-import roles from '../configs/roles';
+import roles from '../config/roles';
 
 module.exports = function (sequelize, DataTypes) {
     var User = sequelize.define('User', {

@@ -6,7 +6,7 @@ import ApplicationStore from '../stores/ApplicationStore';
 import { connectToStores, provideContext } from 'fluxible-addons-react';
 import { handleHistory } from 'fluxible-router';
 import userAction from '../actions/user.js';
-import routes from '../configs/routes';
+import routes from '../config/routes';
 import LoadingState from './misc/LoadingState.js';
 
 class Application extends React.Component {

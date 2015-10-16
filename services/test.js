@@ -4,7 +4,7 @@
  */
 'use strict';
 
-import userRoles from '../configs/roles';
+import userRoles from '../config/roles';
 
 var _messages = [
     {

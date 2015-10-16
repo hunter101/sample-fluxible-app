@@ -1,7 +1,7 @@
 import React from 'react';
 import NavLink from './NavLink';
-import userRoutes from '../configs/routes';
-import userRoles from '../configs/roles';
+import userRoutes from '../config/routes';
+import userRoles from '../config/roles';
 
 class Nav extends React.Component {
 
