@@ -22,8 +22,8 @@ class Application extends React.Component {
         return (
             <div>
                 <div>{this.store.user.displayName || "not logged in"}</div>
-                {this.store.user.profileUrl && (
-                    <img src={this.store.user.profileUrl} />
+                {this.store.user.facebookId && (
+                    <img src={"http://graph.facebook.com/" + this.store.user.facebookId + "/picture"} />
                 )}
                 <LoadingState loading={this.store.loading} />
                 <Nav selected={this.props.pageTitle} links={this.props.pages} />
