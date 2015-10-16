@@ -32,6 +32,10 @@ server.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
 
+// Thumbnail rendering
+var qt = require('quickthumb');
+server.use('/assets', qt.static(__dirname + '/assets'));
+
 //debugLib.enable('*');
 
 // authentication
@@ -145,7 +149,7 @@ server.use((req, res, next) => {
 
                 debug('Rendering Application component into html');
                 const html = React.renderToStaticMarkup(htmlComponent({
-                    clientFile: env === 'production' ? 'main.min.js' : 'main.js',
+                    clientFile: env === 'production' ? 'main.min.js' : 'main.min.js',
                     context: context.getComponentContext(),
                     state: exposed,
                     markup: React.renderToString(createElementWithContext(context))

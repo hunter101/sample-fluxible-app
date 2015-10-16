@@ -35,6 +35,8 @@
     "fluxible-router": "^0.2.0",
     "formsy-react": "^0.14.1",
     "formsy-react-components": "^0.4.1",
+    "imagemagick": "^0.1.3",
+    "mkdirp": "^0.5.1",
     "passport": "^0.3.0",
     "passport-local": "^1.0.0",
     "passport-local-fluxible": "^0.1.0",
