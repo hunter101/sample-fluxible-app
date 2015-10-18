@@ -1,4 +1,19 @@
-Add an image resizer,  this looks promising for basic on the fly + cache functionality
-https://github.com/zivester/node-quickthumb
+Recursive removal of cached images on deletefile.
 
-On a prod env might want somethings more like the S3 instance.
+Add a model dialogue for errors / messages etc.
+
+Change unique fields on listing else upsert isn't working, actually upsert sholdn't be used here a something like an email address should be unique, maybe add inline error checking to fields instead to preempively check for duplication before allowing user to post, also need to not use upsert on server incase of malicious use case.
+
+Add tests on user / edit listing functionality.
+
+Add user profile page so user can edit their credentials, also that shows all their listings so they can edit them.
+
+Fix image upload to either work during the creation of a new listing with tmp ids, or only be available to users on a seperate page once they have created the basic
+listing info.
+
+- Listing Info
+- Images
+- Location
+
+Rename the confusing users.js in actions to be more about AUTHENTICATION ON LOAD
+

@@ -1,16 +1,112 @@
 import React from 'react';
-import NavLink from './NavLink';
-//import { NavLink } from "fluxible-router";
+import NavLink from './misc/NavLink';
 
 class About extends React.Component {
     render() {
 
         return (
-            <div>
-                <h2>About</h2>
+            <div className="container">
+                <div className="content">
+                <div className="row">
+                    <div className="col-sm-4 col-sm-offset-4">
+                            <div className="page-title">
+                                <h1>FAQ</h1>
+                            </div>
 
-                <p>This is a description of the site.</p>
-                <NavLink routeName="test">Login</NavLink>
+                            <div className="faq">
+
+                                <div className="faq-item">
+                                    <div className="faq-item-question">
+                                        <h2>Nulla blandit eu eros nec ultrices?</h2>
+                                    </div>
+
+                                    <div className="faq-item-answer">
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla blandit eu
+                                            eros nec ultrices.
+                                            Aliquam
+                                            gravida dictum odio sed gravida. Nunc posuere imperdiet lectus, et rutrum
+                                            arcu bibendum eu.
+                                            Praesent
+                                            vitae purus vulputate, mattis dolor non, euismod urna. Vivamus porta et urna
+                                            ultricies commodo.
+                                        </p>
+                                    </div>
+
+                                    <div className="faq-item-meta">
+                                        Was this answer helpful?
+                <span className="rate">
+                    <a href="#">Yes</a><span className="separator">/</span><a href="#">No</a>
+                </span>
+                                    </div>
+                                </div>
+
+                                <div className="faq-item">
+                                    <div className="faq-item-question">
+                                        <h2>Nulla blandit eu eros nec ultrices?</h2>
+                                    </div>
+
+                                    <div className="faq-item-answer">
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla blandit eu
+                                            eros nec ultrices.
+                                            Aliquam
+                                            gravida dictum odio sed gravida. Nunc posuere imperdiet lectus, et rutrum
+                                            arcu bibendum eu.
+                                            Praesent
+                                            vitae purus vulputate, mattis dolor non, euismod urna. Vivamus porta et urna
+                                            ultricies commodo.
+                                        </p>
+                                    </div>
+
+                                    <div className="faq-item-meta">
+                                        Was this answer helpful?
+                <span className="rate">
+                    <a href="#">Yes</a><span className="separator">/</span><a href="#">No</a>
+                </span>
+                                    </div>
+                                </div>
+
+                                <div className="faq-item">
+                                    <div className="faq-item-question">
+                                        <h2>Nulla blandit eu eros nec ultrices?</h2>
+                                    </div>
+
+                                    <div className="faq-item-answer">
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla blandit eu
+                                            eros nec ultrices.
+                                            Aliquam
+                                            gravida dictum odio sed gravida. Nunc posuere imperdiet lectus, et rutrum
+                                            arcu bibendum eu.
+                                            Praesent
+                                            vitae purus vulputate, mattis dolor non, euismod urna. Vivamus porta et urna
+                                            ultricies commodo.
+                                        </p>
+                                    </div>
+
+                                    <div className="faq-item-meta">
+                                        Was this answer helpful?
+                <span className="rate">
+                    <a href="#">Yes</a><span className="separator">/</span><a href="#">No</a>
+                </span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div className="pager">
+                                <ul>
+                                    <li><a href="#">Prev</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li className="active"><a>6</a></li>
+                                    <li><a href="#">7</a></li>
+                                    <li><a href="#">Next</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }

@@ -1,15 +1,25 @@
 import React from 'react';
-import NavLink from './NavLink';
+import NavLink from './misc/NavLink';
 import userRoutes from '../config/routes';
 import userRoles from '../config/roles';
 
 class Nav extends React.Component {
 
     render() {
+
+        var pictureStyleLi = {
+            padding: "10px"
+        };
+
+        var pictureStyle = {
+            borderRadius: "50%",
+            height: "40px",
+            marginLeft: "10px"
+        };
+
         const selected = this.props.selected;
         const links = this.props.links;
         const user = this.context.getStore('ApplicationStore').user;
-
         const linkHTML = Object.keys(links).map((name) => {
             var className = '';
             var link = links[name];
@@ -24,6 +34,10 @@ class Nav extends React.Component {
                 }
             }
 
+            if (link.menu !== "main") {
+                return;
+            }
+
             return (
                 <li className={className} key={link.path}>
                     <NavLink routeName={link.page} activeStyle={{backgroundColor: '#eee'}}>{link.title}</NavLink>
@@ -32,8 +46,17 @@ class Nav extends React.Component {
         });
 
         return (
-            <ul className="pure-menu pure-menu-open pure-menu-horizontal">
+            <ul className="header-nav-primary nav nav-pills collapse navbar-collapse">
                 {linkHTML}
+                {user.displayName && (
+                    <li><NavLink style={pictureStyleLi} routeName="userprofile" navParams={{profileId: user.id}}>
+                            {user.displayName}
+                            <img style={pictureStyle} src={"http://graph.facebook.com/" + user.facebookId + "/picture"} />
+                        </NavLink>
+                    </li>
+                )}
+
+
             </ul>
         );
     }

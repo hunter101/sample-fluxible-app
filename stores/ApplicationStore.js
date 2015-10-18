@@ -12,6 +12,10 @@ class ApplicationStore extends BaseStore {
         this.pageTitle = '';
         this.messages = [];
         this.loading = false;
+        this.message = {
+            show: false,
+            text: ""
+        };
         this.user = {role: 0};
         this.query = [];
     }
@@ -40,9 +44,11 @@ class ApplicationStore extends BaseStore {
             pageTitle: this.pageTitle,
             messages: this.messages,
             user: this.user,
-            query: this.query
+            query: this.query,
+            message: this.message
         };
     }
+
     rehydrate(state) {
         this.currentPageName = state.currentPageName;
         this.currentPage = state.currentPage;
@@ -51,6 +57,7 @@ class ApplicationStore extends BaseStore {
         this.messages = state.messages,
         this.user = state.user;
         this.query = state.query;
+        this.message = state.message;
     }
     handleMyAction(messages) {
         this.messages = messages;
@@ -58,6 +65,10 @@ class ApplicationStore extends BaseStore {
     }
     handleLoadingState(loading) {
         this.loading = loading;
+        this.emitChange();
+    }
+    handleMessageState(message) {
+        this.message = message;
         this.emitChange();
     }
     handleUserState(payload) {
@@ -76,6 +87,7 @@ ApplicationStore.handlers = {
     'NAVIGATE_SUCCESS': 'handlePageTitle',
     'MY_ACTION': 'handleMyAction',
     'LOADING_STATE': 'handleLoadingState',
+    'MESSAGE_STATE': 'handleMessageState',
     'USER_STATE': 'handleUserState'
 };
 

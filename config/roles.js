@@ -16,7 +16,10 @@ var roles = {
             permissions: [
                 "ACCESS TEST",
                 "READ TEST",
-                "CAN LOGOUT"
+                "CAN LOGOUT",
+                "CREATE LISTING",
+                "EDIT OWN LISTING",
+                "VIEW USER PROFILE"
             ]
         },
         {

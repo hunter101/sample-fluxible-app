@@ -3,6 +3,18 @@ import React from "react";
 module.exports = React.createClass({
     render: function () {
 
+        var overlayStyle = {
+            position: "fixed",
+            top: 0,
+            left: 0,
+            height: "100%",
+            width: "100%",
+            backgroundColor: "transparent",
+            //backgroundColor: "rgba(100,100,100,.5)",
+            display: "none",
+            zIndex: 99999999
+        };
+
         var style = {
             position: "fixed",
             top: 0,
@@ -13,17 +25,21 @@ module.exports = React.createClass({
             height: "50px",
             width: "200px",
             padding: "10px",
+            background: "#fff",
             border: "solid 1px #000",
-            display: "none"
-        }
+            display: "block",
+            zIndex: 99999999
+        };
 
         if (this.props.loading) {
-            style.display = "block";
+            overlayStyle.display = "block";
         }
 
         return (
-            <div style={style}>
-                Loading...
+            <div style={overlayStyle} onClick={this.handleCloseMessageBox}>
+                <div style={style}>
+                    Loading...
+                </div>
             </div>
         )
     }

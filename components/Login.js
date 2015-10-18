@@ -7,17 +7,33 @@ class Login extends React.Component {
         var query = this.props.query;
 
         return (
-            <div>
-                <h2>Login</h2>
-                <a href="/auth/facebook">Login with facebook</a>
-                <form method="POST" action="/login">
-                    <input placeholder="username" className="username" name="username"/>
-                    <input placeholder="password" className="password" name="password"/>
-                    <button className="submit" type="submit">Submit</button>
-                    {query.invalid &&
-                    (<div className="message">Incorrect username or password</div>)
-                    }
-                </form>
+            <div className="container">
+                <div className="content">
+                    <div className="row">
+                        <div className="col-sm-4 col-sm-offset-4">
+                            <div className="page-title">
+                                <h1>Login</h1>
+                            </div>
+
+                            <form method="POST" action="/login">
+                                <div className="form-group">
+                                    <label for="login-form-email">E-mail</label>
+
+                                    <input placeholder="username" className="form-control" name="username"/>
+                                </div>
+                                <div className="form-group">
+                                    <label for="login-form-email">E-mail</label>
+                                    <input placeholder="password" className="form-control" name="password"/>
+                                </div>
+                                <a href="/auth/facebook">Login with facebook</a>
+                                <button className="btn btn-primary pull-right" type="submit">Submit</button>
+                                {query.invalid &&
+                                (<div className="message">Incorrect username or password</div>)
+                                }
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }

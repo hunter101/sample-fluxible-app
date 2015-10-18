@@ -1,5 +1,4 @@
 import {navigateAction} from 'fluxible-router';
-import routes from '../config/routes';
 import _ from 'underscore';
 import userRoles from '../config/roles';
 

@@ -1,6 +1,8 @@
 import Fluxible from 'fluxible';
 import Application from './components/Application';
 import ApplicationStore from './stores/ApplicationStore';
+import EditListingStore from './stores/EditListingStore';
+import UserProfileStore from './stores/UserProfileStore';
 import RouteStore from './stores/RouteStore';
 var fetchrPlugin = require('fluxible-plugin-fetchr');
 
@@ -12,9 +14,11 @@ const app = new Fluxible({
 // register stores
 app.registerStore(RouteStore);
 app.registerStore(ApplicationStore);
+app.registerStore(EditListingStore);
+app.registerStore(UserProfileStore);
 
 app.plug(fetchrPlugin({
-    xhrPath: '/api' // Path for XHR to be served from
+    xhrPath: '/api',
 }));
 
 module.exports = app;

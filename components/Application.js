@@ -1,13 +1,18 @@
 /*globals document*/
 
 import React from 'react';
+import Header from './Header';
+import Footer from './Footer';
 import Nav from './Nav';
 import ApplicationStore from '../stores/ApplicationStore';
 import { connectToStores, provideContext } from 'fluxible-addons-react';
 import { handleHistory } from 'fluxible-router';
-import userAction from '../actions/user.js';
+import userAction from '../actions/user';
 import routes from '../config/routes';
-import LoadingState from './misc/LoadingState.js';
+import LoadingState from './misc/LoadingState';
+import MessageState from './misc/MessageState';
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+
 
 class Application extends React.Component {
 
@@ -20,14 +25,19 @@ class Application extends React.Component {
         var Handler = this.props.currentRoute.get('handler');
 
         return (
-            <div>
-                <div>{this.store.user.displayName || "not logged in"}</div>
-                {this.store.user.facebookId && (
-                    <img src={"http://graph.facebook.com/" + this.store.user.facebookId + "/picture"} />
-                )}
-                <LoadingState loading={this.store.loading} />
-                <Nav selected={this.props.pageTitle} links={this.props.pages} />
-                <Handler query={this.store.query} />
+            <div className="page-wrapper">
+                {this.store.message.show && (<MessageState message={this.store.message.text} />)}
+                <LoadingState loading={this.store.loading}/>
+                <Header user={this.store.user} selected={this.props.pageTitle} links={this.props.pages}/>
+
+                <div className="main">
+                    <div className="main-inner">
+                        <ReactCSSTransitionGroup transitionName="example" transitionEnterTimeout={500} transitionLeaveTimeout={300} >
+                            <Handler key={this.props.currentRoute.get("url")} user={this.store.user} query={this.store.query}/>
+                        </ReactCSSTransitionGroup>
+                    </div>
+                </div>
+                <Footer />
             </div>
         );
     }

@@ -35,9 +35,52 @@ server.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 var qt = require('quickthumb');
 server.use('/assets', qt.static(__dirname + '/assets',
     {
-        quality: 1
+        quality: 0.9
     }
 ));
+
+// handle fileuploads with multer
+var multer = require('multer');
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        var listingId = file.listingId;
+        //listingId = "1";
+        cb(null, 'assets/uploads/')
+    },
+    filename: function (req, file, cb) {
+        var filename = file.originalname;
+        var ext = path.extname(filename);
+        var name = path.basename(filename, ext);
+        var newFilename = name + "-" + Date.now() + ext;
+        cb(null, newFilename)
+    }
+});
+
+var upload = multer({storage: storage});
+server.post('/api/images', upload.array('image', 12), function (req, res, next) {
+    var type = req.body.type || null
+        , listingId = parseInt(req.body.listingId) || null;
+
+    // Add the file references to the file model on successful save
+    _.each(req.files, function (file) {
+        models.File.create({
+            filename: file.filename,
+            listingId: req.body.listingId,
+            type: type
+        });
+    });
+
+    // send back the new list of files so we can insert the ids of the
+    // newly created files to allow user to act on them immediatley
+    models.File.findAll({
+        where: {
+            listingId: listingId
+        }
+    })
+        .then(function (files) {
+            res.json(files);
+        })
+});
 
 //debugLib.enable('*');
 
@@ -67,8 +110,7 @@ passport.use(new FacebookStrategy({
         callbackURL: "http://localhost:3000/auth/facebook/callback",
         enableProof: false
     },
-    function(accessToken, refreshToken, profile, done) {
-        console.log(profile);
+    function (accessToken, refreshToken, profile, done) {
         models.User.findOrCreate({
             where: {
                 facebookId: profile.id
@@ -89,8 +131,8 @@ server.get('/auth/facebook',
     passport.authenticate('facebook'));
 
 server.get('/auth/facebook/callback',
-    passport.authenticate('facebook', { failureRedirect: '/login' }),
-    function(req, res) {
+    passport.authenticate('facebook', {failureRedirect: '/login'}),
+    function (req, res) {
         // Successful authentication, redirect home.
         res.redirect('/');
     });
@@ -142,6 +184,8 @@ var fetchrPlugin = app.getPlugin('FetchrPlugin');
 fetchrPlugin.registerService(require('./services/test'));
 fetchrPlugin.registerService(require('./services/users'));
 fetchrPlugin.registerService(require('./services/login'));
+fetchrPlugin.registerService(require('./services/listing'));
+fetchrPlugin.registerService(require('./services/file'));
 // Set up the fetchr middleware
 server.use(fetchrPlugin.getXhrPath(), fetchrPlugin.getMiddleware());
 
@@ -167,8 +211,6 @@ server.use((req, res, next) => {
             }
             return;
         }
-
-        console.log("ath", req.isAuthenticated());
 
         // Pass in the user to the components through an action
         // so we can render any initial user related content on the server

@@ -21,15 +21,25 @@ class Test extends React.Component {
     render() {
 
         return (
-            <div>
-                <h2>This is a test title</h2>
-                <p>This is the test page woop</p>
-                <button onClick={this.onClick.bind(this)}>Click me</button>
-                {this.store.messages.map(
-                    (message) => {
-                        return (<div onClick={this.showMessageDetails.bind(this, message.id)} >Message: {message.threadName}</div>)
-                    }
-                )}
+            <div className="container">
+                <div className="row">
+                    <div className="col-sm-8 col-lg-9">
+                        <div className="content">
+                            <div className="page-title">
+                                <h1>This is a test title</h1>
+                            </div>
+
+                            <p>This is the test page woop</p>
+                            <button onClick={this.onClick.bind(this)}>Click me</button>
+                            {this.store.messages.map(
+                                (message) => {
+                                    return (<div onClick={this.showMessageDetails.bind(this, message.id)}>
+                                        Message: {message.threadName}</div>)
+                                }
+                            )}
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
