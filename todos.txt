@@ -1,6 +1,6 @@
 Recursive removal of cached images on deletefile.
 
-Add a model dialogue for errors / messages etc.
+Deal with all the potential errors that can be thrown by the fetchr calls from actions
 
 Change unique fields on listing else upsert isn't working, actually upsert sholdn't be used here a something like an email address should be unique, maybe add inline error checking to fields instead to preempively check for duplication before allowing user to post, also need to not use upsert on server incase of malicious use case.
 
@@ -17,3 +17,6 @@ listing info.
 
 Rename the confusing users.js in actions to be more about AUTHENTICATION ON LOAD
 
+DONE
+
+Add a model dialogue for errors / messages etc.

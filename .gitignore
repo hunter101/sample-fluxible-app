@@ -3,5 +3,6 @@ node_modules
 *.log
 .idea
 assets/.cache
+assets/uploads
 db.development.sqlite
 build

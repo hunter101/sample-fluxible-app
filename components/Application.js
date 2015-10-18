@@ -11,8 +11,7 @@ import userAction from '../actions/user';
 import routes from '../config/routes';
 import LoadingState from './misc/LoadingState';
 import MessageState from './misc/MessageState';
-var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
-
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Application extends React.Component {
 
@@ -32,9 +31,7 @@ class Application extends React.Component {
 
                 <div className="main">
                     <div className="main-inner">
-                        <ReactCSSTransitionGroup transitionName="example" transitionEnterTimeout={500} transitionLeaveTimeout={300} >
-                            <Handler key={this.props.currentRoute.get("url")} user={this.store.user} query={this.store.query}/>
-                        </ReactCSSTransitionGroup>
+                        <Handler key={this.props.currentRoute.get("url")} user={this.store.user} query={this.store.query}/>
                     </div>
                 </div>
                 <Footer />

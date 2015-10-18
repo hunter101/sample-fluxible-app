@@ -2,6 +2,7 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import UploadFilesAction from '../../actions/uploadfiles';
 import DeleteFileAction from '../../actions/deletefile';
+import CreateMessage from '../../actions/createmessage';
 import _ from 'underscore';
 
 class FileUploadComponent extends React.Component {
@@ -49,6 +50,7 @@ class FileUploadComponent extends React.Component {
             if (this.props.max) {
                 var currentUploadedFiles = _.pluck(this.props.listing.Files, {type: this.props.type});
                 if (currentUploadedFiles.length + files.length > this.props.max) {
+                    this.context.executeAction(CreateMessage, {text: "Too many dicks on the dancefloor"});
                     return false;
                 }
             }

@@ -2,6 +2,7 @@ import BaseStore from 'fluxible/addons/BaseStore';
 import routesConfig from '../config/routes';
 import RouteStore from './RouteStore';
 import {navigateAction} from 'fluxible-router';
+import _ from 'underscore';
 
 class ApplicationStore extends BaseStore {
     constructor(dispatcher) {
@@ -68,6 +69,14 @@ class ApplicationStore extends BaseStore {
         this.emitChange();
     }
     handleMessageState(message) {
+        var defaults = {
+            text: "",
+            show: true,
+            type: "STANDARD"
+        };
+
+        var message = _.extend(defaults, message);
+
         this.message = message;
         this.emitChange();
     }

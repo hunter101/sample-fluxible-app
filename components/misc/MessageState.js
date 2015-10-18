@@ -1,11 +1,11 @@
 import React from "react";
-import clearMessage from '../../actions/clearmessage';
+import createMessage from '../../actions/createmessage';
 
 var messageComponent = React.createClass({
 
     handleCloseMessageBox: function (e) {
         e.preventDefault();
-        this.context.executeAction(clearMessage);
+        this.context.executeAction(createMessage, {show: false});
     },
 
     render: function () {

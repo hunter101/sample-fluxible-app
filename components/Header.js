@@ -21,16 +21,7 @@ var Header = React.createClass({
 
                             <div className="header-content">
                                 <div className="header-bottom">
-                                    <div className="header-action">
-                                        <a href="#" className="header-action-inner" title=""
-                                              data-toggle="tooltip"
-                                              data-placement="bottom" data-original-title="Add Listing">
-                                            <i className="fa fa-plus"></i>
-                                        </a>
-                                    </div>
-
                                     <Nav selected={this.props.pageTitle} links={this.props.links}/>
-
                                 </div>
                             </div>
                         </div>
