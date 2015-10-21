@@ -1,14 +1,20 @@
 import React from "react";
 import createMessage from '../../actions/createmessage';
+import { ExecutionEnvironment } from 'react';
 
 var messageComponent = React.createClass({
 
     handleCloseMessageBox: function (e) {
         e.preventDefault();
+        document.removeEventListener('keydown', this.handleCloseMessageBox, false);
         this.context.executeAction(createMessage, {show: false});
     },
 
     render: function () {
+
+        if (typeof window !== "undefined") {
+            document.addEventListener("keydown", this.handleCloseMessageBox, false);
+        }
 
         var overlayStyle = {
             position: "fixed",

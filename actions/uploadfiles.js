@@ -18,7 +18,11 @@ export default function uploadFiles(actionContext, payload, done) {
     req.field('type', payload.type);
     req.end((err, res) => {
         actionContext.dispatch('LOADING_STATE', false);
-        payload.listing.Files = res.body;
-        actionContext.dispatch('LOAD_LISTING', payload.listing);
+        if (err) {
+            actionContext.dispatch('MESSAGE_STATE', {show: true, type: "ERROR", text: err.message});
+        } else {
+            payload.listing.Files = res.body;
+            actionContext.dispatch('LOAD_LISTING', payload.listing);
+        }
     });
 }

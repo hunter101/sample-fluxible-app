@@ -34,12 +34,13 @@ class UserProfileComponent extends React.Component {
 
                                 {profile.Listings.map( (listing) => {
 
+                                    var coverImage = _.find(listing.Files, {type: "coverImage"});
                                     return (
-                                <div className="cards-small">
+                                <div key={listing.id} className="cards-small">
                                     <div className="card-small">
                                         <div className="card-small-image">
                                             <NavLink routeName="editlisting" navParams={{listingId: listing.id}}>
-                                                <img src="" alt="Tasty Brazil Coffee"/>
+                                                <img src={coverImage.preview + '?dim=100x100'} alt={listing.title}/>
                                             </NavLink>
                                         </div>
 

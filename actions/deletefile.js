@@ -6,9 +6,7 @@ export default function deleteFile(actionContext, payload, done) {
         actionContext.dispatch('LOADING_STATE', false);
 
         if (err) {
-            //console.log(err);
-            //console.log(res);
-            //console.log(messages);
+            actionContext.dispatch('MESSAGE_STATE', {show: true, type: "ERROR", text: err.message});
         }
 
         // Remove the file from the listing object and

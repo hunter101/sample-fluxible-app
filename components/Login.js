@@ -17,12 +17,11 @@ class Login extends React.Component {
 
                             <form method="POST" action="/login">
                                 <div className="form-group">
-                                    <label for="login-form-email">E-mail</label>
-
+                                    <label htmlFor="login-form-email">E-mail</label>
                                     <input placeholder="username" className="form-control" name="username"/>
                                 </div>
                                 <div className="form-group">
-                                    <label for="login-form-email">E-mail</label>
+                                    <label htmlFor="login-form-email">E-mail</label>
                                     <input placeholder="password" className="form-control" name="password"/>
                                 </div>
                                 <a href="/auth/facebook">Login with facebook</a>

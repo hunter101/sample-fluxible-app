@@ -66,8 +66,8 @@ class FileUploadComponent extends React.Component {
     render() {
 
         return (
-            <div class="file-input">
-                <div class="input-group">
+            <div className="file-input">
+                <div className="input-group">
                     <Dropzone
                         ref="dropzone"
                         onDrop={this.onDrop.bind(this)}

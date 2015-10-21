@@ -33,7 +33,7 @@ class Test extends React.Component {
                             <button onClick={this.onClick.bind(this)}>Click me</button>
                             {this.store.messages.map(
                                 (message) => {
-                                    return (<div onClick={this.showMessageDetails.bind(this, message.id)}>
+                                    return (<div key={message.id} onClick={this.showMessageDetails.bind(this, message.id)}>
                                         Message: {message.threadName}</div>)
                                 }
                             )}

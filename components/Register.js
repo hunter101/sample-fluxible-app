@@ -32,40 +32,65 @@ class Register extends React.Component {
 
     render() {
         return (
-            <div>
-                <h2>Register</h2>
-                <Formsy.Form
-                             onSubmit={this.submitForm.bind(this)}
-                             ref="form">
-                    <Input
-                        name="displayName"
-                        label="Display Name"
-                        type="text"
-                        placeholder="Enter a Display Name."
-                        validationError="This field is required sucker"
-                        required
-                        />
-                    <Input
-                        name="username"
-                        label="Username"
-                        type="text"
-                        placeholder="Enter a new username."
-                        help="This will be your username."
-                        validationError="This field is required sucker"
-                        required
-                        />
-                    <Input
-                        name="password"
-                        label="Password"
-                        type="password"
-                        placeholder="Enter a new password."
-                        help="This will be your password."
-                        validationError="This field is required sucker"
-                        required
-                        />
-                    <button type="submit">Register</button>
-                </Formsy.Form>
+            <div  className="container">
+                <div  className="content">
+
+                    <div  className="row">
+                        <div  className="col-sm-4 col-sm-offset-4">
+                            <div  className="page-title">
+                                <h1>Register</h1>
+                            </div>
+
+                            <Formsy.Form
+                                onSubmit={this.submitForm.bind(this)}
+                                ref="form">
+
+                                <div  className="form-group">
+                                    <Input
+                                        name="displayName"
+                                        layout="vertical"
+                                        label="Display Name"
+                                        type="text"
+                                        placeholder="Enter a Display Name."
+                                        validationError="This field is required sucker"
+                                        required
+                                        />
+                                </div>
+
+                                <div className="form-group">
+
+                                    <Input
+                                        name="username"
+                                        layout="vertical"
+                                        label="Username"
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Enter a new username."
+                                        validationError="This field is required sucker"
+                                        required
+                                        />
+                                </div>
+
+
+                                <div  className="form-group">
+                                    <Input
+                                        name="password"
+                                        layout="vertical"
+                                        label="Password"
+                                        type="password"
+                                        placeholder="Enter a new password."
+                                        validationError="This field is required sucker"
+                                        required
+                                        />
+                                </div>
+
+                                <button type="submit"  className="btn btn-primary pull-right">Register</button>
+                            </Formsy.Form>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         );
     }
 }

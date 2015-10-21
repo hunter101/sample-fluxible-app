@@ -20,9 +20,11 @@ module.exports = {
                     }
                 })
                     .then(() => {
+
                         fs.unlink('assets/uploads/' + file.filename, function (err) {
                             if (err) {
-                                return callback('error, cannot remove file', null);
+                                var error = new Error(err);
+                                return callback(error, null);
                             }
 
                             // Once the file is successfully removed,

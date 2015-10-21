@@ -135,7 +135,7 @@ class EditListingComponent extends React.Component {
                                         onChange={this.handleChange}
                                         className="form-control"
                                         placeholder="Listing Description"
-                                        rows="8">
+                                        rows={8}>
                                     </Textarea>
 
                                 </div>
@@ -181,7 +181,7 @@ class EditListingComponent extends React.Component {
                                                     layout="elementOnly"
                                                     name="phone"
                                                     value={listing.phone}
-                                                    type="phone"
+                                                    type="number"
                                                     placeholder="Phone"
                                                     required
                                                     />

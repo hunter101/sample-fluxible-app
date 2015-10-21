@@ -1,10 +1,13 @@
 Recursive removal of cached images on deletefile.
 
-Deal with all the potential errors that can be thrown by the fetchr calls from actions
-
 Change unique fields on listing else upsert isn't working, actually upsert sholdn't be used here a something like an email address should be unique, maybe add inline error checking to fields instead to preempively check for duplication before allowing user to post, also need to not use upsert on server incase of malicious use case.
 
 Add tests on user / edit listing functionality.
+
+Restrict the fileuploads to only images
+also maxfile size..
+
+Animate the dropzone on hover as a basic proof of concept
 
 Add user profile page so user can edit their credentials, also that shows all their listings so they can edit them.
 

@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var path = require('path');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 require('style-loader');
 require('autoprefixer-loader');
 
@@ -24,6 +25,7 @@ var webpackConfig = {
             { test: /\.json$/, loader: 'json-loader'},
             {
                 test: /\.scss$/,
+                //loader: ExtractTextPlugin.extract('style-loader', 'css-loader', 'sass-loader')
                 loader: 'style!css!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded'
             },
             {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&minetype=application/font-woff"},
@@ -32,14 +34,6 @@ var webpackConfig = {
             {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file"},
             {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&minetype=image/svg+xml"},
             {test: /\.jpg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&minetype=image/jpg+xml"},
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                loaders: [
-                    require.resolve('react-hot-loader'),
-                    require.resolve('babel-loader')
-                ]
-            },
         ]
     },
     node: {
@@ -52,7 +46,8 @@ var webpackConfig = {
             'process.env': {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV)
             }
-        })
+        }),
+        //new ExtractTextPlugin("styles.css")
     ],
     devtool: 'eval'
 };

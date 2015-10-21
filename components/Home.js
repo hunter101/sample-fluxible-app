@@ -9,11 +9,9 @@ class Home extends React.Component {
         return (
 
             <div className="container">
-                <div className="row">
-                    <div className="content">
-                        <div style={{background: "url(/assets/images/sample.jpg?dim=1750x300)"}} className="document-title">
-                            <h1>Welcome {user.displayName || "Home"}</h1>
-                        </div>
+                <div className="content">
+                    <div className="row">
+
                     </div>
                 </div>
                 <NavLink routeName="editlisting" navParams={{listingId: 1}}>Lilnk</NavLink>

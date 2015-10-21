@@ -121,7 +121,7 @@ export default {
         path: "/register",
         method: "get",
         page: "register",
-        title: "Register a new user",
+        title: "Register",
         menu: "main",
         auth: "CAN REGISTER",
         showLinkNonAuth: false,

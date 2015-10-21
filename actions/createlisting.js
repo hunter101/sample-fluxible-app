@@ -7,7 +7,7 @@ export default function createListingAction(actionContext, payload, done) {
         if (!err) {
             actionContext.executeAction(navigateAction, {url: "/"}, done());
         } else {
-            console.log(err);
+            actionContext.dispatch('MESSAGE_STATE', {show: true, type: "ERROR", text: err.message});
         }
     });
 }

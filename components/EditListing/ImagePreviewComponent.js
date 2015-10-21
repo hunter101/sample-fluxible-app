@@ -8,7 +8,8 @@ class ImagePreviewComponent extends React.Component {
         super(props, context)
     }
 
-    handleDeleteFile(file) {
+    handleDeleteFile(file, e) {
+        e.preventDefault();
         this.context.executeAction(DeleteFileAction,
             {
                 file: file,
@@ -30,15 +31,15 @@ class ImagePreviewComponent extends React.Component {
                                 <h2></h2>
 
                                 <div>{images.map((file) =>
-                                    <div
+                                    <div key={file.id}
                                         className="file-preview-frame file-preview-initial"
                                         style={{position: "relative", float: "left", paddingRight: "20px", paddingBottom: "20px"}}>
                                         <img className="file-preview-image"
                                              style={{width: "100px", height: "100px", background: "#f7f7f7"}}
                                              src={file.preview  + "?dim=100x100"}/>
-                                        <i className="fa fa-trash fa-2x"
+                                        <a href="#"><i className="fa fa-trash fa-2x"
                                            style={{position: "absolute", color: "#FFF", top: 10, right: 30}}
-                                           onClick={this.handleDeleteFile.bind(this, file)}>X</i>
+                                           onClick={this.handleDeleteFile.bind(this, file)}>X</i></a>
                                     </div>)}</div>
 
                             </div> : null}
