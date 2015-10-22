@@ -17,11 +17,13 @@ class Application extends React.Component {
 
     constructor(props, context) {
         super(props, context);
+        this.context = context;
         this.store = context.getStore('ApplicationStore');
     }
 
     render() {
         var Handler = this.props.currentRoute.get('handler');
+        var context = this.context;
 
         return (
             <div className="page-wrapper">
@@ -31,7 +33,7 @@ class Application extends React.Component {
 
                 <div className="main">
                     <div className="main-inner">
-                        <Handler key={this.props.currentRoute.get("url")} user={this.store.user} query={this.store.query}/>
+                        <Handler context={context} key={this.props.currentRoute.get("url")} user={this.store.user} query={this.store.query}/>
                     </div>
                 </div>
                 <Footer />

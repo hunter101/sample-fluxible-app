@@ -1,5 +1,3 @@
-/*global document, window */
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import debug from 'debug';

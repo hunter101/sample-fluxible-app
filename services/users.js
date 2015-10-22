@@ -7,7 +7,9 @@ module.exports = {
         // Restrict access to the current logged in user
         if (params.auth) {
             if (!req.user) {
-                return callback("Not Logged in", null);
+                var err = new Error('You must be logged in to access this page');
+                err.statusCode = 403;
+                return callback(err, null);
             }
             params.userId = req.user.id;
             delete params.auth;
@@ -19,8 +21,16 @@ module.exports = {
                     {model: models.Listing}
                 ]
             }).then((user) => {
-                callback(null, user)
-            })
+                if (!user) {
+                    var err = new Error("No user found in DB, pls ensure you're logged in");
+                    err.statusCode = 404;
+                    return callback(err, null);
+                }
+                return callback(null, user);
+            });
+            // Just spew out a list of users
+            // this is only here for testing purposes
+            // needs high level of auth otherwise.
         } else {
             models.Listing.findAll({
                 include: [
@@ -28,7 +38,11 @@ module.exports = {
                 ]
             })
                 .then((user) => {
-                    callback(null, user)
+                    if (!user) {
+                        var err = new Error('No user found in DB');
+                        err.statusCode = 404;
+                        return callback(err, null);
+                    }
                 });
         }
     },

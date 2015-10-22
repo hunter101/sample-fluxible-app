@@ -1,19 +1,19 @@
 import React from 'react';
 import NavLink from '../misc/NavLink';
 import _ from 'underscore';
-
+import UserProfileStore from '../../stores/UserProfileStore';
+import { connectToStores, provideContext } from 'fluxible-addons-react';
 class UserProfileComponent extends React.Component {
 
     constructor(props, context) {
         super(props, context);
         this.context = context;
-        this.store = this.context.getStore('UserProfileStore');
     }
 
     render() {
 
-        var profile = this.store.profile;
-        console.log(profile);
+        var profile = this.props.profile;
+        console.log('rendering');
 
         return (
             <div className="container">
@@ -40,7 +40,7 @@ class UserProfileComponent extends React.Component {
                                     <div className="card-small">
                                         <div className="card-small-image">
                                             <NavLink routeName="editlisting" navParams={{listingId: listing.id}}>
-                                                <img src={coverImage.preview + '?dim=100x100'} alt={listing.title}/>
+                                                <img src="ass" />
                                             </NavLink>
                                         </div>
 
@@ -59,14 +59,15 @@ class UserProfileComponent extends React.Component {
                 </div>
             </div>
         )
-
-        var profile = this.store.profile;
     }
 }
 
-UserProfileComponent.contextTypes = {
-    executeAction: React.PropTypes.func.isRequired,
-    getStore: React.PropTypes.func.isRequired
-};
-
-export default UserProfileComponent;
+export default provideContext(connectToStores(
+    UserProfileComponent,
+    [UserProfileStore],
+    function(context) {
+        var upStore = context.getStore(UserProfileStore);
+        return {
+            profile: upStore.getProfile()
+        }
+}));

@@ -7,7 +7,7 @@ class Login extends React.Component {
         var query = this.props.query;
 
         return (
-            <div className="container">
+            <div className="container page-login">
                 <div className="content">
                     <div className="row">
                         <div className="col-sm-4 col-sm-offset-4">
@@ -17,13 +17,15 @@ class Login extends React.Component {
 
                             <form method="POST" action="/login">
                                 <div className="form-group">
-                                    <label htmlFor="login-form-email">E-mail</label>
-                                    <input placeholder="username" className="form-control" name="username"/>
+                                    <label htmlFor="login-form-email">Username</label>
+                                    <input id="username" placeholder="username" className="form-control" name="username"/>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="login-form-email">E-mail</label>
-                                    <input placeholder="password" className="form-control" name="password"/>
+                                    <input id="password" placeholder="password" className="form-control" name="password"/>
                                 </div>
+
+
                                 <a href="/auth/facebook">Login with facebook</a>
                                 <button className="btn btn-primary pull-right" type="submit">Submit</button>
                                 {query.invalid &&

@@ -23,6 +23,10 @@ class UserProfileStore extends BaseStore {
         this.profile = profile;
         this.emitChange();
     }
+
+    getProfile() {
+        return this.profile;
+    }
 }
 
 UserProfileStore.storeName = 'UserProfileStore';

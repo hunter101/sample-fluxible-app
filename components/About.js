@@ -1,5 +1,6 @@
 import React from 'react';
 import NavLink from './misc/NavLink';
+import { connectToStores, provideContext } from 'fluxible-addons-react';
 
 class About extends React.Component {
     render() {
@@ -51,9 +52,9 @@ class About extends React.Component {
     }
 }
 
-About.contextTypes = {
-    executeAction: React.PropTypes.func.isRequired,
-    getStore: React.PropTypes.func.isRequired
-};
+//About.contextTypes = {
+//    executeAction: React.PropTypes.func.isRequired,
+//    getStore: React.PropTypes.func.isRequired
+//};
 
 export default About;
