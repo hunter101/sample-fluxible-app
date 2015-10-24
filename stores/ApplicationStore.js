@@ -66,7 +66,18 @@ class ApplicationStore extends BaseStore {
     }
     handleLoadingState(loading) {
         this.loading = loading;
-        this.emitChange();
+
+        // Small delay in showing the loading state
+        // so the user doesn't get flashed with loading
+        // events for tiny requests.
+        if (loading) {
+            setTimeout(() => {
+                this.emitChange();
+            }, 500);
+        } else {
+            // No delay when removing the state
+            this.emitChange();
+        }
     }
     handleMessageState(message) {
         var defaults = {

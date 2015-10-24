@@ -19,10 +19,33 @@ class Application extends React.Component {
         super(props, context);
         this.context = context;
         this.store = context.getStore('ApplicationStore');
+        this.state = {};
+        this.state.currentRoute = props.currentRoute;
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        // Only load the new handler when navigation is complete
+        // so we don't render components before any ajax
+        // requests have finished firing.
+        // Using this method instead of componentShouldUpdate
+        // so we can still update the loadingState to inform
+        // the user that something is still loading.
+        if (nextProps.isNavigateComplete) {
+            this.state.currentRoute = this.props.currentRoute;
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const newProps = this.props;
+        if (newProps.pageTitle === prevProps.pageTitle) {
+            return;
+        }
+        document.title = newProps.pageTitle;
     }
 
     render() {
-        var Handler = this.props.currentRoute.get('handler');
+
+        var Handler = this.state.currentRoute.get('handler');
         var context = this.context;
 
         return (
@@ -39,14 +62,6 @@ class Application extends React.Component {
                 <Footer />
             </div>
         );
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        const newProps = this.props;
-        if (newProps.pageTitle === prevProps.pageTitle) {
-            return;
-        }
-        document.title = newProps.pageTitle;
     }
 }
 
