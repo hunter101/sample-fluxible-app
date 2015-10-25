@@ -2,6 +2,7 @@ import React from 'react';
 import NavLink from './misc/NavLink';
 import userRoutes from '../config/routes';
 import userRoles from '../config/roles';
+import ListingUtils from '../mixins/ListingUtils';
 
 class Nav extends React.Component {
 
@@ -45,13 +46,15 @@ class Nav extends React.Component {
             );
         });
 
+        var userProfileImage = ListingUtils.userProfilePreview(user, {h: 50, w: 50});
+
         return (
             <ul className="header-nav-primary nav nav-pills collapse navbar-collapse">
                 {linkHTML}
                 {user.displayName && (
                     <li><NavLink style={pictureStyleLi} routeName="userprofile" navParams={{profileId: user.id}}>
                             {user.displayName}
-                            <img style={pictureStyle} src={"http://graph.facebook.com/" + user.facebookId + "/picture"} />
+                            <img style={pictureStyle} src={userProfileImage} />
                         </NavLink>
                     </li>
                 )}

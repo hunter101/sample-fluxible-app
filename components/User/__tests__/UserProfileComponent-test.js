@@ -3,34 +3,14 @@ var React = require('react'),
     UserProfileComponent = require('../UserProfileComponent'),
     expect = require('expect'),
     BaseStore = require('fluxible/addons/BaseStore'),
-    UserProfileStore = require('../../../stores/UserProfileStore');
+    UserProfileStore = require('../../../stores/UserProfileStore'),
+    loadUserProfileAction = require('../../../actions/loaduserprofile');
 
+var util = require('util');
+
+import RouteStore from '../../../stores/RouteStore'
 import { connectToStores, provideContext } from 'fluxible-addons-react';
 import {createMockComponentContext} from 'fluxible/utils';
-
-//class MockFooStore extends BaseStore {
-//    constructor (dispatcher) {
-//        super(dispatcher);
-//        this.foo = 'foo';
-//        this.profile = {};
-//        this.profile.Listings = [];
-//        this.profile.displayName = "Dave";
-//    }
-//    handleFoo (payload) {
-//        this.foo = payload;
-//        this.emitChange();
-//    }
-//    getFoo () {
-//        return this.foo;
-//    }
-//    getProfile() {
-//        return this.profile;
-//    }
-//}
-//MockFooStore.storeName = 'UserProfileStore'; // Matches FooStore.storeName
-//MockFooStore.handlers = {
-//    'profile': 'handleFoo'
-//};
 
 describe('UserProfileComponent', function () {
 
@@ -39,22 +19,52 @@ describe('UserProfileComponent', function () {
 
     beforeEach(function (done) {
         componentContext = createMockComponentContext({
-            stores: [UserProfileStore]
+            stores: [UserProfileStore, RouteStore]
         });
-        done();
-    });
 
-    it("renders an h1", function () {
-        var userprofile = TestUtils.renderIntoDocument(
+        var profile = {
+            displayName: "Andy Hunter",
+            Listings: [
+                {
+                    id: 1,
+                    title: "Lisitng 1",
+                    suburb: "Suburb 1",
+                    postcode: "2345",
+                    price: "234",
+                    Files: []
+                },
+                {
+                    id: 2,
+                    title: "Listing 2",
+                    suburb: "Suburb 2",
+                    postcode: "2345",
+                    price: "1 million dollars",
+                    Files: []
+                }
+            ]
+        };
+
+        componentContext.getStore('UserProfileStore').profile = profile;
+
+        component = TestUtils.renderIntoDocument(
             <UserProfileComponent context={componentContext}/>
         );
 
-        var h1 = TestUtils.findRenderedDOMComponentWithTag(
-            userprofile, 'h1'
-        );
-
-        expect(h1.textContent).toEqual("My Profile: ");
+        done();
     });
 
+    it("renders an h1 with the correct displayName", function () {
+        var h1 = TestUtils.findRenderedDOMComponentWithTag(
+            component, 'h1'
+        );
+        expect(h1.textContent).toEqual("My Profile: Andy Hunter");
+    });
+
+    it("loads the correct number of listing", function () {
+        var listings = TestUtils.scryRenderedDOMComponentsWithClass(
+            component, 'card-small'
+        );
+        expect(listings.length).toEqual(2);
+    });
 });
 

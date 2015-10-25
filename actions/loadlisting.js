@@ -15,5 +15,5 @@ export default function myAction(actionContext, payload, done) {
             done();
         });
 
-    }, 2000);
+    }, 1);
 }

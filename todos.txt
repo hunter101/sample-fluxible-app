@@ -1,15 +1,13 @@
 Recursive removal of cached images on deletefile.
 
-Change unique fields on listing else upsert isn't working, actually upsert sholdn't be used here a something like an email address should be unique, maybe add inline error checking to fields instead to preempively check for duplication before allowing user to post, also need to not use upsert on server incase of malicious use case.
+Stop users without the correct permissions viewing or making changes through the api of other users content or profiles.
 
-Add tests on user / edit listing functionality.
+Add tests on user profile / edit listing functionality.
 
-Restrict the fileuploads to only images
-also maxfile size..
+Restrict the fileuploads to only specficed types of content
+also maxfile size..4
 
 Animate the dropzone on hover as a basic proof of concept
-
-Add user profile page so user can edit their credentials, also that shows all their listings so they can edit them.
 
 Fix image upload to either work during the creation of a new listing with tmp ids, or only be available to users on a seperate page once they have created the basic
 listing info.
@@ -23,3 +21,5 @@ Rename the confusing users.js in actions to be more about AUTHENTICATION ON LOAD
 DONE
 
 Add a model dialogue for errors / messages etc.
+Add user profile page so user can edit their credentials, also that shows all their listings so they can edit them.
+Change unique fields on listing else upsert isn't working, actually upsert sholdn't be used here a something like an email address should be unique, maybe add inline error checking to fields instead to preempively check for duplication before allowing user to post, also need to not use upsert on server incase of malicious use case.

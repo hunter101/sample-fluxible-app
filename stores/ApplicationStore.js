@@ -70,14 +70,15 @@ class ApplicationStore extends BaseStore {
         // Small delay in showing the loading state
         // so the user doesn't get flashed with loading
         // events for tiny requests.
-        if (loading) {
-            setTimeout(() => {
-                this.emitChange();
-            }, 500);
-        } else {
-            // No delay when removing the state
-            this.emitChange();
-        }
+        //if (loading) {
+        //    setTimeout(() => {
+        //        this.emitChange();
+        //    }, 500);
+        //} else {
+        //    // No delay when removing the state
+        //    this.emitChange();
+        //}
+        this.emitChange();
     }
     handleMessageState(message) {
         var defaults = {
@@ -92,9 +93,9 @@ class ApplicationStore extends BaseStore {
         this.emitChange();
     }
     handleUserState(payload) {
-        var user = payload.user;
+        var user = payload.user || this.user;
         var url  = payload.url;
-        this.query = payload.query;
+        this.query = payload.query || this.query;
         if (user) {
             this.user = user;
         }

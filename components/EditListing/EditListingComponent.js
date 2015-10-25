@@ -3,10 +3,11 @@ import Dropzone from 'react-dropzone';
 import _ from 'underscore';
 import Formsy from 'formsy-react';
 import CreateListingAction from '../../actions/createlisting';
+import UpdateListingAction from '../../actions/updatelisting';
 import DeleteFileAction from '../../actions/deletefile';
 import EditListingStore from '../../stores/EditListingStore';
-import FileUploadComponent from './FileUploadComponent';
-import ImagePreviewComponent from './ImagePreviewComponent';
+import FileUploadComponent from './../misc/FileUploadComponent';
+import ImagePreviewComponent from './../misc/ImagePreviewComponent';
 import { connectToStores } from 'fluxible-addons-react';
 var FRC = require('formsy-react-components');
 var Input = FRC.Input;
@@ -15,7 +16,6 @@ var Select = FRC.Select;
 var CheckboxGroup = FRC.CheckboxGroup;
 var File = FRC.File;
 var listingOptions = require('../../models/extras/listingOptions');
-
 
 class EditListingComponent extends React.Component {
 
@@ -34,13 +34,23 @@ class EditListingComponent extends React.Component {
         this.store.clearListing();
     }
 
+    componentDidMount() {
+        window.onbeforeunload = function () {
+            return 'Make sure to save your changes before leaving this page!';
+        };
+    }
+
     submitForm(data) {
 
         // If the listing is being created, attach the user
         if (!this.store.listing.id) {
             data.userId = this.props.user.id;
+            this.context.executeAction(CreateListingAction, data);
+        } else {
+            // update, attach the listingId
+            data.id = this.store.listing.id;
+            this.context.executeAction(UpdateListingAction, data);
         }
-        this.context.executeAction(CreateListingAction, data);
     }
 
     enableButton() {
@@ -53,17 +63,6 @@ class EditListingComponent extends React.Component {
         //this.setState({
         //    canSubmit: false
         //});
-    }
-
-    onDrop(files) {
-    }
-
-    handleDeleteFile(file) {
-        this.context.executeAction(DeleteFileAction,
-            {
-                file: file,
-                listing: this.store.listing
-            });
     }
 
     render() {
@@ -189,7 +188,8 @@ class EditListingComponent extends React.Component {
 
 
                                             <div className="input-group">
-                                                <span className="input-group-addon"><i className="fa fa-at"></i></span>
+                                                    <span className="input-group-addon"><i
+                                                        className="fa fa-at"></i></span>
                                                 <Input
                                                     {...sharedProps}
                                                     layout="elementOnly"
@@ -205,7 +205,8 @@ class EditListingComponent extends React.Component {
 
                                         <div className="col-sm-6">
                                             <div className="input-group">
-                                                <span className="input-group-addon"><i className="fa fa-building-o"></i></span>
+                                                    <span className="input-group-addon"><i
+                                                        className="fa fa-building-o"></i></span>
                                                 <Input
                                                     {...sharedProps}
                                                     layout="elementOnly"
@@ -268,24 +269,26 @@ class EditListingComponent extends React.Component {
                                     <div className="col-sm-6">
                                         <div className="background-white p30 mb30">
                                             <h3 className="page-title">Logo Image</h3>
-                                            <FileUploadComponent multiple={false} listing={listing} type="logo" />
-                                            <ImagePreviewComponent listing={listing} images={logo} />
+                                            <FileUploadComponent multiple={false} entity={listing} type="logo"/>
+                                            <ImagePreviewComponent entity={listing} images={logo}/>
                                         </div>
                                     </div>
 
                                     <div className="col-sm-6">
                                         <div className="background-white p30 mb30">
                                             <h3 className="page-title">Cover Image</h3>
-                                            <FileUploadComponent multiple={false} listing={listing} type="coverImage" />
-                                            <ImagePreviewComponent listing={listing} images={coverImage} />
+                                            <FileUploadComponent multiple={false} entity={listing}
+                                                                 type="coverImage"/>
+                                            <ImagePreviewComponent entity={listing} images={coverImage}/>
                                         </div>
                                     </div>
 
                                     <div className="col-sm-12">
                                         <div className="background-white p30 mb30">
                                             <h3 className="page-title">Gallery ({gallery.length} files)</h3>
-                                            <FileUploadComponent multiple={true} max={12} listing={listing} type="gallery" />
-                                            <ImagePreviewComponent listing={listing} images={gallery} />
+                                            <FileUploadComponent multiple={true} max={12} entity={listing}
+                                                                 type="gallery"/>
+                                            <ImagePreviewComponent entity={listing} images={gallery}/>
                                         </div>
                                     </div>
 
@@ -295,7 +298,7 @@ class EditListingComponent extends React.Component {
                                 <div className="background-white p30 mb30">
                                     <h3 className="page-title">Amenities</h3>
 
-                                      <CheckboxGroup
+                                    <CheckboxGroup
                                         {...sharedProps}
                                         name="options"
                                         label="Select some options"
@@ -307,7 +310,8 @@ class EditListingComponent extends React.Component {
                                 </div>
 
                                 <div className="center">
-                                    <input className="btn btn-primary" disabled={!this.state.canSubmit} type="submit"
+                                    <input className="btn btn-primary" disabled={!this.state.canSubmit}
+                                           type="submit"
                                            defaultValue="Submit"/>
                                 </div>
 
@@ -371,7 +375,8 @@ class EditListingComponent extends React.Component {
                                     <div className="card-small">
                                         <div className="card-small-image">
                                             <a href="listing-detail.html">
-                                                <img src="/assets/img/tmp/product-4.jpg" alt="Coffee &amp; Newspaper"/>
+                                                <img src="/assets/img/tmp/product-4.jpg"
+                                                     alt="Coffee &amp; Newspaper"/>
                                             </a>
                                         </div>
 
@@ -522,16 +527,21 @@ class EditListingComponent extends React.Component {
     }
 }
 
-EditListingComponent.contextTypes = {
+EditListingComponent
+    .
+    contextTypes = {
     executeAction: React.PropTypes.func.isRequired,
     getStore: React.PropTypes.func.isRequired
 };
 
-export default connectToStores(
-    EditListingComponent,
+export
+default
+
+connectToStores(EditListingComponent,
     [EditListingStore],
+
     function (context, props) {
-        return {
-        }
+        return {}
     }
-);
+)
+;

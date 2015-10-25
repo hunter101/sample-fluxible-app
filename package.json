@@ -8,7 +8,8 @@
     "dev": "node webpack-dev-server.js && nodemon start.js",
     "lint": "eslint ./*.js ./**/*.js",
     "start": "nodemon start.js",
-    "test": "karma start"
+    "test": "karma start",
+    "func": "protractor protractor/protractor.conf.js"
   },
   "dependencies": {
     "async": "^1.4.2",

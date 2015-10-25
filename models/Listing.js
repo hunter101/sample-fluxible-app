@@ -77,6 +77,9 @@ module.exports = function (sequelize, DataTypes) {
             }
         },
         getterMethods: {
+            type : function () {
+                return "listing"
+            }
         }
     });
 

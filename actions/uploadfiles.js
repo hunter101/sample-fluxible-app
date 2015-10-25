@@ -12,17 +12,24 @@ export default function uploadFiles(actionContext, payload, done) {
         req.attach('image', file, file.name);
     });
 
-    // @TODO: Add the id of the listing for verification
+    // @TODO: Add the id of the entity for verification
     // @TODO: Add error checking etc.
-    req.field('listingId', payload.listing.id);
+    req.field('entityType', payload.entity.type);
+    req.field('id', payload.entity.id);
     req.field('type', payload.type);
     req.end((err, res) => {
         actionContext.dispatch('LOADING_STATE', false);
         if (err) {
             actionContext.dispatch('MESSAGE_STATE', {show: true, type: "ERROR", text: err.message});
         } else {
-            payload.listing.Files = res.body;
-            actionContext.dispatch('LOAD_LISTING', payload.listing);
+            payload.entity.Files = res.body;
+            if (payload.entity.type === "listing") {
+                actionContext.dispatch('LOAD_LISTING', payload.entity);
+            }
+            if (payload.entity.type === "user") {
+                actionContext.dispatch('USER_STATE', {user: payload.entity});
+            }
         }
+        done();
     });
 }

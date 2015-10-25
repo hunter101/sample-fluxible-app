@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var path = require('path');
 require('style-loader');
 require('autoprefixer-loader');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 
 var webpackConfig = {
@@ -24,7 +25,7 @@ var webpackConfig = {
             { test: /\.json$/, loader: 'json-loader'},
             {
                 test: /\.scss$/,
-                loader: 'style!css!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded'
+                loader: ExtractTextPlugin.extract('style-loader' , 'css!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded')
             },
             {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&minetype=application/font-woff"},
             {test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&minetype=application/font-woff"},
@@ -46,6 +47,7 @@ var webpackConfig = {
         setImmediate: false
     },
     plugins: [
+        new ExtractTextPlugin("styles.css"),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin({

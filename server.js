@@ -60,23 +60,29 @@ var storage = multer.diskStorage({
 var upload = multer({storage: storage});
 server.post('/api/images', upload.array('image', 12), function (req, res, next) {
     var type = req.body.type || null
-        , listingId = parseInt(req.body.listingId) || null;
+        , entityId = parseInt(req.body.id) || null
+        , entityType = req.body.entityType
+        , entityKey = entityType + "Id";
+
+
 
     // Add the file references to the file model on successful save
     _.each(req.files, function (file) {
-        models.File.create({
+        var file = {
             filename: file.filename,
-            listingId: req.body.listingId,
             type: type
-        });
+        }
+
+        file[entityKey] = entityId;
+        models.File.create(file);
     });
 
     // send back the new list of files so we can insert the ids of the
     // newly created files to allow user to act on them immediatley
+    var whereParams = {};
+    whereParams[entityKey] = entityId;
     models.File.findAll({
-        where: {
-            listingId: listingId
-        }
+        where: whereParams
     })
         .then(function (files) {
             res.json(files);
@@ -120,7 +126,8 @@ passport.use(new FacebookStrategy({
                 role: 1,
                 username: profile.username,
                 displayName: profile.displayName,
-                profileUrl: profile.profileUrl
+                profileUrl: profile.profileUrl,
+
             }
         }).spread(function (user, created) {
             return done(null, user);
@@ -144,7 +151,13 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (id, done) {
-    models.User.findById(id)
+    models.User.findById(
+        id,
+        {
+            include: [
+                {model: models.File}
+            ],
+        })
         .then(function (user) {
             var err = user ? null : "No User Found";
             done(err, user);
@@ -175,6 +188,7 @@ server.post('/login', passport.authenticate('local', {
 }));
 
 server.get('/logout', function (req, res) {
+    req.session.destroy();
     req.logout();
     res.redirect("/");
 });

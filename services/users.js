@@ -18,7 +18,12 @@ module.exports = {
             models.User.find({
                 where: params,
                 include: [
-                    {model: models.Listing}
+                    {model: models.File},
+                    {
+                        model: models.Listing, include: [
+                        {model: models.File}
+                    ]
+                    },
                 ]
             }).then((user) => {
                 if (!user) {
@@ -57,5 +62,18 @@ module.exports = {
             .then((user) => {
                 callback(null, user)
             });
+    },
+    update: function (req, resource, params, body, config, callback) {
+        console.log(params);
+        models.User.update(
+            params.data,
+            {
+                where: {
+                    id: params.profileId
+                }
+            }).then((updated) => {
+                callback(null, updated)
+            }
+        )
     }
 };

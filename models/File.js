@@ -15,6 +15,7 @@ module.exports = function (sequelize, DataTypes) {
       classMethods: {
         associate: function (models) {
           File.belongsTo(models.Listing, {foreignKey: 'listingId'});
+          File.belongsTo(models.User, {foreignKey: 'userId'});
         }
       },
       getterMethods: {

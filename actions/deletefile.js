@@ -9,11 +9,11 @@ export default function deleteFile(actionContext, payload, done) {
             actionContext.dispatch('MESSAGE_STATE', {show: true, type: "ERROR", text: err.message});
         }
 
-        // Remove the file from the listing object and
+        // Remove the file from the entity object and
         // send back through to rerender, avoids another
-        // server call to re-render the listing object
-        var listing = payload.listing;
-        listing.Files = _.without(listing.Files, payload.file);
+        // server call to re-render the entity object
+        var entity = payload.entity;
+        entity.Files = _.without(entity.Files, payload.file);
 
         // If we need to remove a file before adding a new one
         // (ie. logos etc. where the account can only have one file)
@@ -23,7 +23,9 @@ export default function deleteFile(actionContext, payload, done) {
             payload.callback();
         }
 
-        actionContext.dispatch('LOAD_LISTING', listing);
+        if (entity.type === "listing") {
+            actionContext.dispatch('LOAD_LISTING', entity);
+        }
         done();
     })
 }

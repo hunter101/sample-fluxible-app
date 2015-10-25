@@ -20,9 +20,9 @@ module.exports = {
             models.Listing.find({
                 where: params,
                 include: [
-                    { model: models.File}
+                    {model: models.File}
                 ]
-            }).then( (listing) => {
+            }).then((listing) => {
                 if (!listing) {
                     var err = new Error('No listing found');
                     err.statusCode = 404;
@@ -33,7 +33,7 @@ module.exports = {
         } else {
             models.Listing.findAll({
                 include: [
-                    { model: models.File}
+                    {model: models.File}
                 ]
             })
                 .then((listings) => {
@@ -42,10 +42,25 @@ module.exports = {
         }
     },
     create: function (req, resource, params, body, config, callback) {
-        console.log(params);
-        models.Listing.upsert(params)
+        models.Listing.create(params)
+            .then((listing) => {
+                callback(null, listing)
+            })
+            .catch(function (error) {
+                console.log(error);
+                callback(error);
+            });
+    },
+    update: function (req, resource, params, body, config, callback) {
+        models.Listing.update(
+            params,
+            {
+                where: {
+                    id: params.id
+                }
+            })
             .then((listing) => {
                 callback(null, listing)
             });
-    }
+    },
 };

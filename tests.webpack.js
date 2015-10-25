@@ -1,2 +1,2 @@
-var context = require.context('./components/User', true, /-test\.jsx?$/);
+var context = require.context('./components', true, /-test\.jsx?$/);
 context.keys().forEach(context);
