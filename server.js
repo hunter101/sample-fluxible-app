@@ -32,6 +32,9 @@ server.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
 
+// Disable sequelize logging to the command line
+models.sequelize.config.logging = false;
+
 // Thumbnail rendering
 var qt = require('quickthumb');
 server.use('/assets', qt.static(__dirname + '/assets',
@@ -142,7 +145,7 @@ server.get('/auth/facebook/callback',
     passport.authenticate('facebook', {failureRedirect: '/login'}),
     function (req, res) {
         // Successful authentication, redirect home.
-        res.redirect('/');
+        res.redirect('/profile/' + req.user.id);
     });
 
 // Local Auth Strategy
@@ -182,10 +185,23 @@ passport.use(new LocalStrategy(
     }
 ));
 
-server.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login?invalid=login'
-}));
+//server.post('/login', passport.authenticate('local', {
+//    successRedirect: '/profile',
+//    failureRedirect: '/login?invalid=login'
+//}));
+
+server.post('/login', function(req, res, next) {
+    passport.authenticate('local', function(err, user, info) {
+        if (err) { return next(err); }
+        // Redirect if it fails
+        if (!user) { return res.redirect('/login'); }
+        req.logIn(user, function(err) {
+            if (err) { return next(err); }
+            // Redirect if it succeeds
+            return res.redirect('/profile/' + user.id);
+        });
+    })(req, res, next);
+});
 
 server.get('/logout', function (req, res) {
     req.session.destroy();
@@ -257,7 +273,10 @@ server.use((req, res, next) => {
     });
 });
 
-models.sequelize.sync()
+// Ensure the test environment always starts with a clean state
+var cleanDb = process.env.NODE_ENV === "test" ? {force: true} : {};
+
+models.sequelize.sync(cleanDb)
 //models.sequelize.sync({force: true})
     .then(function () {
 

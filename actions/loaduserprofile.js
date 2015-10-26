@@ -5,6 +5,11 @@ export default function loadUserProfile(actionContext, payload, done) {
     actionContext.service.read('user', payload, {}, (err, profile) => {
         if (err || !profile) {
             actionContext.dispatch('MESSAGE_STATE', {show: true, type: "ERROR", text: err.message});
+            var error500 = {
+                statusCode: err.statusCode || 500,
+                message: err.message
+            };
+
             actionContext.executeAction(navigateAction, {url: "/"}, done());
         } else {
             actionContext.dispatch('LOAD_USER_PROFILE', profile);

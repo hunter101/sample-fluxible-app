@@ -60,7 +60,7 @@ module.exports = {
                 }
             })
             .then((listing) => {
-                callback(null, listing)
+                callback(null, req.user.id)
             });
     },
 };

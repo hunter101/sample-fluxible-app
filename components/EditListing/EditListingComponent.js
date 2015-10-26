@@ -28,6 +28,7 @@ class EditListingComponent extends React.Component {
         this.disabled = false;
         this.state = {};
         this.state.canSubmit = true;
+        this.state.contentHasChanged = false;
     }
 
     componentWillUnmount() {
@@ -35,9 +36,11 @@ class EditListingComponent extends React.Component {
     }
 
     componentDidMount() {
-        window.onbeforeunload = function () {
-            return 'Make sure to save your changes before leaving this page!';
-        };
+        //window.onbeforeunload = () => {
+        //    if (this.state.contentHasChanged) {
+        //        return 'Make sure to save your changes before leaving this page!';
+        //    }
+        //};
     }
 
     submitForm(data) {
@@ -47,22 +50,24 @@ class EditListingComponent extends React.Component {
             data.userId = this.props.user.id;
             this.context.executeAction(CreateListingAction, data);
         } else {
-            // update, attach the listingId
+
+            // its an update, attach the listingId
             data.id = this.store.listing.id;
             this.context.executeAction(UpdateListingAction, data);
         }
     }
 
     enableButton() {
-        //this.setState({
-        //    canSubmit: true
-        //});
+        this.setState({
+            canSubmit: true,
+            //contentHasChanged: true
+        });
     }
 
     disableButton() {
-        //this.setState({
-        //    canSubmit: false
-        //});
+        this.setState({
+            canSubmit: false
+        });
     }
 
     render() {
@@ -99,7 +104,7 @@ class EditListingComponent extends React.Component {
         };
 
         return (
-            <div className="container">
+            <div className="container page-user-profile">
                 <div className="row">
 
                     <div className="col-sm-8 col-lg-9">
@@ -107,7 +112,7 @@ class EditListingComponent extends React.Component {
                             <div className="page-title">
                                 <h1>Edit Listing: {listing.title}</h1>
                             </div>
-                            <Formsy.Form onValid={this.enableButton} onInvalid={this.disableButton}
+                            <Formsy.Form onValid={this.enableButton.bind(this)} onInvalid={this.disableButton.bind(this)}
                                          onSubmit={this.submitForm.bind(this)}
                                          ref="form">
 
@@ -118,6 +123,7 @@ class EditListingComponent extends React.Component {
                                         {...sharedProps}
                                         name="title"
                                         value={listing.title}
+                                        id="title"
                                         label="Listing Title"
                                         type="text"
                                         placeholder="Here is a text input."
@@ -130,6 +136,7 @@ class EditListingComponent extends React.Component {
                                         {...sharedProps}
                                         name="description"
                                         label="Description"
+                                        id="description"
                                         value={listing.description}
                                         onChange={this.handleChange}
                                         className="form-control"
@@ -152,6 +159,7 @@ class EditListingComponent extends React.Component {
                                                     {...sharedProps}
                                                     layout="elementOnly"
                                                     name="category"
+                                                    id="category"
                                                     value={listing.category}
                                                     label="Select a category"
                                                     options={categoryOptions}
@@ -166,6 +174,7 @@ class EditListingComponent extends React.Component {
                                                     {...sharedProps}
                                                     layout="elementOnly"
                                                     name="price"
+                                                    id="price"
                                                     value={listing.price}
                                                     type="text"
                                                     placeholder="Price"
@@ -179,6 +188,7 @@ class EditListingComponent extends React.Component {
                                                     {...sharedProps}
                                                     layout="elementOnly"
                                                     name="phone"
+                                                    id="phone"
                                                     value={listing.phone}
                                                     type="number"
                                                     placeholder="Phone"
@@ -194,6 +204,7 @@ class EditListingComponent extends React.Component {
                                                     {...sharedProps}
                                                     layout="elementOnly"
                                                     name="email"
+                                                    id="email"
                                                     value={listing.email}
                                                     type="email"
                                                     placeholder="Email"
@@ -211,6 +222,7 @@ class EditListingComponent extends React.Component {
                                                     {...sharedProps}
                                                     layout="elementOnly"
                                                     name="address"
+                                                    id="address"
                                                     value={listing.address}
                                                     type="text"
                                                     placeholder="Address"
@@ -226,6 +238,7 @@ class EditListingComponent extends React.Component {
                                                     {...sharedProps}
                                                     layout="elementOnly"
                                                     name="suburb"
+                                                    id="suburb"
                                                     value={listing.suburb}
                                                     type="text"
                                                     placeholder="Suburb"
@@ -240,6 +253,7 @@ class EditListingComponent extends React.Component {
                                                     {...sharedProps}
                                                     layout="elementOnly"
                                                     name="postcode"
+                                                    id="postcode"
                                                     value={listing.postcode}
                                                     type="text"
                                                     placeholder="Postcode"
@@ -254,6 +268,7 @@ class EditListingComponent extends React.Component {
                                                     {...sharedProps}
                                                     layout="elementOnly"
                                                     name="state"
+                                                    id="state"
                                                     value={listing.state}
                                                     label="State"
                                                     options={stateOptions}
@@ -311,7 +326,7 @@ class EditListingComponent extends React.Component {
 
                                 <div className="center">
                                     <input className="btn btn-primary" disabled={!this.state.canSubmit}
-                                           type="submit"
+                                           type="submit"  id="submit"
                                            defaultValue="Submit"/>
                                 </div>
 

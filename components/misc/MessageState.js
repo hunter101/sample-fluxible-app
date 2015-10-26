@@ -52,9 +52,9 @@ var messageComponent = React.createClass({
 
         return (
             <div style={overlayStyle} onClick={this.handleCloseMessageBox}>
-                <div style={boxStyle}>
+                <div className="messagePopup" style={boxStyle}>
                     <a style={closeMessageBoxStyle} href="#" onClick={this.handleCloseMessageBox}>X</a>
-                    {this.props.message}
+                    <p>{this.props.message}</p>
                 </div>
             </div>
         )

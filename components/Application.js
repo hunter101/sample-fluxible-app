@@ -32,6 +32,12 @@ class Application extends React.Component {
         // the user that something is still loading.
         if (nextProps.isNavigateComplete) {
             this.state.currentRoute = this.props.currentRoute;
+            //historyState.scroll = {x: window.scrollX, y: window.scrollY};
+
+            // We're also disabliing the enableScroll attr of the handleHistory.js
+            // component so we only update the scroll histroy when we actually
+            // render a new component, not when we're just firing complete
+            window.scrollTo(scroll.x || 0, scroll.y || 0);
         }
     }
 
@@ -50,13 +56,14 @@ class Application extends React.Component {
 
         return (
             <div className="page-wrapper">
-                {this.store.message.show && (<MessageState message={this.store.message.text} />)}
+                {this.store.message.show && (<MessageState message={this.store.message.text}/>)}
                 <LoadingState loading={this.store.loading}/>
                 <Header user={this.store.user} selected={this.props.pageTitle} links={this.props.pages}/>
 
                 <div className="main">
                     <div className="main-inner">
-                        <Handler context={context} key={this.props.currentRoute.get("url")} user={this.store.user} query={this.store.query}/>
+                        <Handler context={context} key={this.props.currentRoute.get("url")} user={this.store.user}
+                                 query={this.store.query}/>
                     </div>
                 </div>
                 <Footer />
@@ -71,14 +78,20 @@ Application.contextTypes = {
 };
 
 export default handleHistory(provideContext(connectToStores(
-    Application,
-    [ApplicationStore],
-    function (context, props) {
-        var appStore = context.getStore(ApplicationStore);
-        return {
-            currentPageName: appStore.getCurrentPageName(),
-            pageTitle: appStore.getPageTitle(),
-            pages: appStore.getPages()
-        };
+        Application,
+        [ApplicationStore],
+        function (context, props) {
+            var appStore = context.getStore(ApplicationStore);
+            return {
+                currentPageName: appStore.getCurrentPageName(),
+                pageTitle: appStore.getPageTitle(),
+                pages: appStore.getPages()
+            };
+        }
+    )),
+    // default opts override
+    {
+        checkRouteOnPageLoad: false,
+        enableScroll: false,
     }
-)));
+);
